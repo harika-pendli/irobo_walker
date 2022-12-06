@@ -40,9 +40,11 @@ To run the Launch file for obstacle avoidance node,run:
 ros2 launch irobo_walker turtlebot3_world.launch.py
 ```
 
-### ROS2 Bags and Enable/Disable them (and RESULTS)
+For enabling Ros2bag files except camera:
+```
 
-To enable/disable rosbags, go to file ros_bag.launch.py and change "record_all_topics". (set to true by default)
+ros2 launch irobo_walker turtlebot3_world.launch.py record_all_topics:=True
+```
 
 Rosbag result files:[link]https://drive.google.com/drive/folders/1VdDUQhkmkG13TxuRW1wh4rM2HK1hInVZ?usp=share_link
 
