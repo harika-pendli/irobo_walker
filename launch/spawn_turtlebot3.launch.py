@@ -19,19 +19,25 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
-
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
+    launch_file_dir_local = os.path.join(get_package_share_directory('roomba_ros2'), 'launch')
     # Get the urdf file
     TURTLEBOT3_MODEL = os.environ['TURTLEBOT3_MODEL']
     model_folder = 'turtlebot3_' + TURTLEBOT3_MODEL
-   
-    
+    # urdf_path = os.path.join(
+    #     get_package_share_directory('roomba_ros2'),
+    #     'models',
+    #     model_folder,
+    #     'model.sdf'
+    # )
     urdf_path='/home/harika/ros2_ws_g/src/irobo_walker/models/turtlebot3_waffle_pi/model.sdf'
-
     # Launch configuration variables specific to simulation
     x_pose = LaunchConfiguration('x_pose', default='0.0')
     y_pose = LaunchConfiguration('y_pose', default='0.0')
+    rosbag_flag = LaunchConfiguration('rosbag_flag', default=False)
 
     # Declare the launch arguments
     declare_x_position_cmd = DeclareLaunchArgument(
@@ -55,13 +61,21 @@ def generate_launch_description():
         output='screen',
     )
 
+    rosbag_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(launch_file_dir_local, 'ros_bag.launch.py')
+        )
+    )
+
     ld = LaunchDescription()
 
     # Declare the launch options
     ld.add_action(declare_x_position_cmd)
     ld.add_action(declare_y_position_cmd)
+    ld.add_action(rosbag_cmd)
 
     # Add any conditioned actions
     ld.add_action(start_gazebo_ros_spawner_cmd)
 
     return ld
+    
