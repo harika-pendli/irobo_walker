@@ -62,6 +62,7 @@ ros2 bag play rosbag_files
 ``` 
 ## Results
 The results after running the following commands are stored in the results folder.
+<img title="irobo_walker" alt="irobo_walker" src="results/Screenshot from 2022-12-06 19-37-19.png">
 
 ### rqt Console
 ```
